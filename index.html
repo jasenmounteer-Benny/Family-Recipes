@@ -80,19 +80,25 @@
   }
   nav.toc .toc-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: 16px;
     list-style: none;
     padding: 0;
     margin: 0;
+    align-items: start;
   }
   nav.toc .toc-grid li { margin: 0; }
-  nav.toc .toc-grid a {
+  nav.toc details.toc-item {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    background: #fff;
+  }
+  nav.toc details.toc-item summary {
     display: block;
     position: relative;
     height: 110px;
-    border-radius: 10px;
-    overflow: hidden;
+    cursor: pointer;
     text-decoration: none;
     color: #fff;
     font-weight: bold;
@@ -100,26 +106,59 @@
     font-size: 1.05em;
     background-size: cover;
     background-position: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    list-style: none;
+    transition: filter 0.2s ease;
   }
-  nav.toc .toc-grid a:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.25);
-  }
-  nav.toc .toc-grid a::before {
+  nav.toc details.toc-item summary::-webkit-details-marker { display: none; }
+  nav.toc details.toc-item summary:hover { filter: brightness(1.08); }
+  nav.toc details.toc-item summary::before {
     content: '';
     position: absolute;
     inset: 0;
     background: linear-gradient(rgba(0,0,0,0.05), rgba(20,12,10,0.75));
   }
-  nav.toc .toc-grid a span {
+  nav.toc details.toc-item summary::after {
+    content: '▾';
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    z-index: 2;
+    font-size: 1.1em;
+    color: #fff;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+    transition: transform 0.2s ease;
+  }
+  nav.toc details.toc-item[open] summary::after { transform: rotate(180deg); }
+  nav.toc details.toc-item summary span {
     position: absolute;
     bottom: 10px;
     left: 12px;
     right: 12px;
     z-index: 1;
     text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+  }
+  nav.toc details.toc-item .toc-sublist {
+    list-style: none;
+    margin: 0;
+    padding: 8px;
+    background: #fff;
+  }
+  nav.toc details.toc-item .toc-sublist li { margin: 0; }
+  nav.toc details.toc-item .toc-sublist a {
+    display: block;
+    padding: 8px 10px;
+    color: var(--dark);
+    text-decoration: none;
+    font-size: 0.92em;
+    border-radius: 6px;
+    line-height: 1.3;
+  }
+  nav.toc details.toc-item .toc-sublist a:hover {
+    background: var(--cream);
+    color: var(--accent);
+  }
+  nav.toc details.toc-item .toc-sublist li + li {
+    border-top: 1px solid var(--line);
   }
   main {
     max-width: 820px;
@@ -233,15 +272,89 @@
   <div class="toc-panel">
     <h2>Table of Contents</h2>
     <ul class="toc-grid">
-      <li><a href="#breakfast" style="background-image:url('https://loremflickr.com/400/300/pancakes,waffles')"><span>Breakfast</span></a></li>
-      <li><a href="#breads" style="background-image:url('https://loremflickr.com/400/300/bread,bakery')"><span>Breads</span></a></li>
-      <li><a href="#salads" style="background-image:url('https://loremflickr.com/400/300/spinach,salad')"><span>Salads</span></a></li>
-      <li><a href="#soups" style="background-image:url('https://loremflickr.com/400/300/soup,stew')"><span>Soups</span></a></li>
-      <li><a href="#sides" style="background-image:url('https://loremflickr.com/400/300/stuffing,thanksgiving')"><span>Sides</span></a></li>
-      <li><a href="#pasta" style="background-image:url('https://loremflickr.com/400/300/pasta,italian')"><span>Pasta</span></a></li>
-      <li><a href="#meat" style="background-image:url('https://loremflickr.com/400/300/meatloaf,beef')"><span>Meat Dishes</span></a></li>
-      <li><a href="#dinners" style="background-image:url('https://loremflickr.com/400/300/dinner,homecooking')"><span>Dinners</span></a></li>
-      <li><a href="#desserts" style="background-image:url('https://loremflickr.com/400/300/dessert,cookies')"><span>Desserts</span></a></li>
+      <li>
+        <details class="toc-item">
+          <summary style="background-image:url('https://loremflickr.com/400/300/pancakes,waffles')"><span>Breakfast</span></summary>
+          <ul class="toc-sublist">
+            <li><a href="#buttermilk-waffles">Buttermilk Waffles</a></li>
+            <li><a href="#belgian-waffles">Waffles (Belgian Style)</a></li>
+            <li><a href="#jases-pancakes">Jase's Pancakes</a></li>
+          </ul>
+        </details>
+      </li>
+      <li>
+        <details class="toc-item">
+          <summary style="background-image:url('https://loremflickr.com/400/300/bread,bakery')"><span>Breads</span></summary>
+          <ul class="toc-sublist">
+            <li><a href="#parker-house-rolls">Salted Honey Parker House Rolls</a></li>
+            <li><a href="#sourdough-bread">Sourdough Bread</a></li>
+          </ul>
+        </details>
+      </li>
+      <li>
+        <details class="toc-item">
+          <summary style="background-image:url('https://loremflickr.com/400/300/spinach,salad')"><span>Salads</span></summary>
+          <ul class="toc-sublist">
+            <li><a href="#spinach-salad">Spinach Salad</a></li>
+          </ul>
+        </details>
+      </li>
+      <li>
+        <details class="toc-item">
+          <summary style="background-image:url('https://loremflickr.com/400/300/soup,stew')"><span>Soups</span></summary>
+          <ul class="toc-sublist">
+            <li><a href="#vegetable-beef-soup">Vegetable-Beef Soup</a></li>
+          </ul>
+        </details>
+      </li>
+      <li>
+        <details class="toc-item">
+          <summary style="background-image:url('https://loremflickr.com/400/300/stuffing,thanksgiving')"><span>Sides</span></summary>
+          <ul class="toc-sublist">
+            <li><a href="#grandma-heatons-stuffing">Grandma Heaton's Stuffing (Turkey)</a></li>
+          </ul>
+        </details>
+      </li>
+      <li>
+        <details class="toc-item">
+          <summary style="background-image:url('https://loremflickr.com/400/300/pasta,italian')"><span>Pasta</span></summary>
+          <ul class="toc-sublist">
+            <li><a href="#market-street-pasta-salad">Market Street Pasta Salad</a></li>
+            <li><a href="#beef-spinach-manicotti">Beef-Spinach Stuffed Manicotti</a></li>
+          </ul>
+        </details>
+      </li>
+      <li>
+        <details class="toc-item">
+          <summary style="background-image:url('https://loremflickr.com/400/300/meatloaf,beef')"><span>Meat Dishes</span></summary>
+          <ul class="toc-sublist">
+            <li><a href="#meatloaf">Meatloaf</a></li>
+          </ul>
+        </details>
+      </li>
+      <li>
+        <details class="toc-item">
+          <summary style="background-image:url('https://loremflickr.com/400/300/dinner,homecooking')"><span>Dinners</span></summary>
+          <ul class="toc-sublist">
+            <li><a href="#green-chicken-enchiladas">Green Chicken Enchiladas</a></li>
+            <li><a href="#vietnamese-pork-bowls">Vietnamese Caramelised Pork Bowls</a></li>
+            <li><a href="#sour-cream-chicken-enchiladas">Sour Cream Chicken Enchiladas</a></li>
+            <li><a href="#beef-stroganoff">Beef Stroganoff</a></li>
+          </ul>
+        </details>
+      </li>
+      <li>
+        <details class="toc-item">
+          <summary style="background-image:url('https://loremflickr.com/400/300/dessert,cookies')"><span>Desserts</span></summary>
+          <ul class="toc-sublist">
+            <li><a href="#scotcheroos">Best Ever Scotcheroos</a></li>
+            <li><a href="#snickerdoodles">Snickerdoodle Cookies</a></li>
+            <li><a href="#peach-pie">Peach Pie</a></li>
+            <li><a href="#applesauce-cookies">Applesauce Cookies</a></li>
+            <li><a href="#raspberry-cheesecake">Raspberry Cheesecake</a></li>
+          </ul>
+        </details>
+      </li>
     </ul>
   </div>
 </nav>
@@ -252,7 +365,7 @@
   <div class="banner" style="background-image:url('https://loremflickr.com/900/400/pancakes,waffles')"><h2>Breakfast</h2></div>
 
   <article class="recipe">
-    <h3>Buttermilk Waffles</h3>
+    <h3 id="buttermilk-waffles">Buttermilk Waffles</h3>
     <div class="meta">Serves 6 · Prep 10 min · Cook 10 min</div>
     <h4>Ingredients</h4>
     <ul>
@@ -278,7 +391,7 @@
   </article>
 
   <article class="recipe">
-    <h3>Waffles (Belgian Style)</h3>
+    <h3 id="belgian-waffles">Waffles (Belgian Style)</h3>
     <div class="meta">Family recipe card · Tip: buy X-large eggs</div>
     <h4>Ingredients</h4>
     <ul>
@@ -304,7 +417,7 @@
   </article>
 
   <article class="recipe">
-    <h3>Jase's Pancakes</h3>
+    <h3 id="jases-pancakes">Jase's Pancakes</h3>
     <div class="meta">Family recipe card</div>
     <h4>Ingredients</h4>
     <ul>
@@ -332,7 +445,7 @@
   <div class="banner" style="background-image:url('https://loremflickr.com/900/400/bread,bakery')"><h2>Breads</h2></div>
 
   <article class="recipe">
-    <h3>Salted Honey Parker House Rolls</h3>
+    <h3 id="parker-house-rolls">Salted Honey Parker House Rolls</h3>
     <div class="meta">Makes 15 rolls · Prep 1 hr 30 min · Cook 15 min · Rise 1 hr</div>
     <h4>Ingredients</h4>
     <ul>
@@ -364,7 +477,7 @@
   </article>
 
   <article class="recipe">
-    <h3>Sourdough Bread</h3>
+    <h3 id="sourdough-bread">Sourdough Bread</h3>
     <div class="meta">Tartine basic loaf · Makes 2 loaves · About 7–8 hrs (same day) or 5–6 hrs + overnight proof</div>
     <h4>Ingredients</h4>
     <ul>
@@ -407,7 +520,7 @@
   <div class="banner" style="background-image:url('https://loremflickr.com/900/400/spinach,salad')"><h2>Salads</h2></div>
 
   <article class="recipe">
-    <h3>Spinach Salad</h3>
+    <h3 id="spinach-salad">Spinach Salad</h3>
     <div class="meta">Prep 30 min · Serves 8–10</div>
     <h4>Ingredients</h4>
     <ul>
@@ -442,7 +555,7 @@
   <div class="banner" style="background-image:url('https://loremflickr.com/900/400/soup,stew')"><h2>Soups</h2></div>
 
   <article class="recipe">
-    <h3>Vegetable-Beef Soup</h3>
+    <h3 id="vegetable-beef-soup">Vegetable-Beef Soup</h3>
     <div class="meta">Serves 8</div>
     <h4>Ingredients</h4>
     <ul>
@@ -474,7 +587,7 @@
   <div class="banner" style="background-image:url('https://loremflickr.com/900/400/stuffing,thanksgiving')"><h2>Sides</h2></div>
 
   <article class="recipe">
-    <h3>Grandma Heaton's Stuffing (Turkey)</h3>
+    <h3 id="grandma-heatons-stuffing">Grandma Heaton's Stuffing (Turkey)</h3>
     <div class="meta">Family recipe</div>
     <h4>Ingredients</h4>
     <ul>
@@ -503,7 +616,7 @@
   <div class="banner" style="background-image:url('https://loremflickr.com/900/400/pasta,italian')"><h2>Pasta</h2></div>
 
   <article class="recipe">
-    <h3>Market Street Pasta Salad</h3>
+    <h3 id="market-street-pasta-salad">Market Street Pasta Salad</h3>
     <div class="meta">Family recipe card</div>
     <h4>Ingredients</h4>
     <ul>
@@ -529,7 +642,7 @@
   </article>
 
   <article class="recipe">
-    <h3>Beef-Spinach Stuffed Manicotti</h3>
+    <h3 id="beef-spinach-manicotti">Beef-Spinach Stuffed Manicotti</h3>
     <div class="meta">Recipe by Lisa Schlepp</div>
     <h4>Ingredients</h4>
     <ul>
@@ -563,7 +676,7 @@
   <div class="banner" style="background-image:url('https://loremflickr.com/900/400/meatloaf,beef')"><h2>Meat Dishes</h2></div>
 
   <article class="recipe">
-    <h3>Meatloaf</h3>
+    <h3 id="meatloaf">Meatloaf</h3>
     <div class="meta">Family recipe card</div>
     <h4>Ingredients</h4>
     <ul>
@@ -590,7 +703,7 @@
   <div class="banner" style="background-image:url('https://loremflickr.com/900/400/dinner,homecooking')"><h2>Dinners</h2></div>
 
   <article class="recipe">
-    <h3>Green Chicken Enchiladas (Enchiladas Verdes con Pollo)</h3>
+    <h3 id="green-chicken-enchiladas">Green Chicken Enchiladas (Enchiladas Verdes con Pollo)</h3>
     <div class="meta">By Olivia Mack McCool, Food52 · Serves 4 · Prep 20 min · Cook 1 hr 25 min</div>
     <h4>Ingredients</h4>
     <ul>
@@ -626,7 +739,7 @@
   </article>
 
   <article class="recipe">
-    <h3>Vietnamese Caramelised Pork Bowls</h3>
+    <h3 id="vietnamese-pork-bowls">Vietnamese Caramelised Pork Bowls</h3>
     <div class="meta">By Nagi Maehashi, RecipeTin Eats · Serves 4 · Prep 10 min · Cook 10 min</div>
     <h4>Ingredients</h4>
     <ul>
@@ -653,7 +766,7 @@
   </article>
 
   <article class="recipe">
-    <h3>Sour Cream Chicken Enchiladas</h3>
+    <h3 id="sour-cream-chicken-enchiladas">Sour Cream Chicken Enchiladas</h3>
     <div class="meta">Recipe by Klenell Jensen</div>
     <h4>Ingredients</h4>
     <ul>
@@ -679,7 +792,7 @@
   </article>
 
   <article class="recipe">
-    <h3>Beef Stroganoff</h3>
+    <h3 id="beef-stroganoff">Beef Stroganoff</h3>
     <div class="meta">Family recipe card</div>
     <h4>Ingredients</h4>
     <ul>
@@ -703,7 +816,7 @@
   <div class="banner" style="background-image:url('https://loremflickr.com/900/400/dessert,cookies')"><h2>Desserts</h2></div>
 
   <article class="recipe">
-    <h3>Best Ever Scotcheroos</h3>
+    <h3 id="scotcheroos">Best Ever Scotcheroos</h3>
     <div class="meta">By Kelsey Byrnes, Dance Around the Kitchen · 24 squares · Prep 10 min · Cook 5 min</div>
     <h4>Ingredients</h4>
     <ul>
@@ -730,7 +843,7 @@
   </article>
 
   <article class="recipe">
-    <h3>The Best Snickerdoodle Cookie Recipe</h3>
+    <h3 id="snickerdoodles">The Best Snickerdoodle Cookie Recipe</h3>
     <div class="meta">By Melissa Stadler, Modern Honey · Makes 24 · Prep 15 min · Cook 10 min</div>
     <h4>Ingredients</h4>
     <ul>
@@ -758,7 +871,7 @@
   </article>
 
   <article class="recipe">
-    <h3>Peach Pie</h3>
+    <h3 id="peach-pie">Peach Pie</h3>
     <div class="meta">Recipe by Madison Mounteer</div>
     <h4>Ingredients</h4>
     <ul>
@@ -784,7 +897,7 @@
   </article>
 
   <article class="recipe">
-    <h3>Applesauce Cookies</h3>
+    <h3 id="applesauce-cookies">Applesauce Cookies</h3>
     <div class="meta">Recipe by Klenell Jensen · Bake at 375°F, 15 min, greased cookie sheet</div>
     <h4>Ingredients</h4>
     <ul>
@@ -811,7 +924,7 @@
   </article>
 
   <article class="recipe">
-    <h3>Raspberry Cheesecake</h3>
+    <h3 id="raspberry-cheesecake">Raspberry Cheesecake</h3>
     <div class="meta">Family recipe card</div>
     <h4>Part 1 — Crust</h4>
     <ul>
