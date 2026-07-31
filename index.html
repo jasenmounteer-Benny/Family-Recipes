@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Mounteer Family Recipe Box</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #fdf8f0;
+    --dark: #3b2e2a;
+    --accent: #a83c3c;
+    --accent-light: #e8c9c0;
+    --gold: #c9a24b;
+    --line: #e2d6c3;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Lato', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    line-height: 1.65;
+  }
+  h1, h2, h3 { font-family: 'Playfair Display', Georgia, serif; }
+  header.hero {
+    position: relative;
+    height: 60vh;
+    min-height: 380px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(rgba(30,20,15,0.45), rgba(30,20,15,0.55)),
+                url('https://loremflickr.com/1600/900/homecooking,familydinner') center/cover no-repeat;
+    color: #fff;
+  }
+  header.hero .hero-inner { padding: 20px; }
+  header.hero h1 {
+    font-size: 3.2em;
+    margin: 0 0 14px;
+    letter-spacing: 1px;
+    text-shadow: 0 3px 12px rgba(0,0,0,0.5);
+  }
+  header.hero p {
+    font-style: italic;
+    font-size: 1.2em;
+    margin: 0;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  }
+  header.hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--gold), var(--accent), var(--gold));
+  }
+  nav.toc {
+    max-width: 980px;
+    margin: -60px auto 40px;
+    padding: 0 20px;
+    position: relative;
+    z-index: 2;
+  }
+  nav.toc .toc-panel {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 12px 35px rgba(59,46,42,0.18);
+    padding: 30px 35px 35px;
+  }
+  nav.toc h2 {
+    margin-top: 0;
+    font-size: 1.5em;
+    color: var(--accent);
+    text-align: center;
+    border-bottom: 2px solid var(--line);
+    padding-bottom: 14px;
+    margin-bottom: 20px;
+  }
+  nav.toc .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 16px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  nav.toc .toc-grid li { margin: 0; }
+  nav.toc .toc-grid a {
+    display: block;
+    position: relative;
+    height: 110px;
+    border-radius: 10px;
+    overflow: hidden;
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05em;
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  nav.toc .toc-grid a:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+  }
+  nav.toc .toc-grid a::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(rgba(0,0,0,0.05), rgba(20,12,10,0.75));
+  }
+  nav.toc .toc-grid a span {
+    position: absolute;
+    bottom: 10px;
+    left: 12px;
+    right: 12px;
+    z-index: 1;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+  }
+  main {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 10px 20px 60px;
+  }
+  section.category {
+    margin-top: 65px;
+  }
+  section.category .banner {
+    position: relative;
+    height: 190px;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 8px 20px rgba(59,46,42,0.15);
+    margin-bottom: 30px;
+  }
+  section.category .banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(rgba(0,0,0,0.05), rgba(20,12,10,0.65));
+  }
+  section.category .banner h2 {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+    font-size: 2.1em;
+    margin: 0;
+    padding: 20px 28px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  }
+  article.recipe {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 28px 32px;
+    margin: 25px 0;
+    box-shadow: 0 4px 14px rgba(59,46,42,0.08);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  article.recipe:hover {
+    box-shadow: 0 10px 26px rgba(59,46,42,0.16);
+    transform: translateY(-2px);
+  }
+  article.recipe h3 {
+    margin-top: 0;
+    font-size: 1.4em;
+    color: var(--dark);
+  }
+  article.recipe .meta {
+    font-style: italic;
+    color: #8a7a6d;
+    font-size: 0.9em;
+    margin-bottom: 15px;
+  }
+  article.recipe h4 {
+    color: var(--accent);
+    font-size: 1em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+    margin-top: 20px;
+  }
+  article.recipe ul, article.recipe ol {
+    margin: 0;
+    padding-left: 22px;
+  }
+  article.recipe li { margin-bottom: 4px; }
+  article.recipe .note {
+    margin-top: 15px;
+    padding: 10px 15px;
+    background: #faf3ea;
+    border-left: 3px solid var(--accent-light);
+    font-size: 0.92em;
+  }
+  a.back-to-top {
+    display: inline-block;
+    margin-top: 14px;
+    font-size: 0.85em;
+    color: #8a7a6d;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  a.back-to-top:hover { color: var(--accent); }
+  footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: #8a7a6d;
+    font-size: 0.9em;
+    border-top: 1px solid var(--line);
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<header class="hero" id="top">
+  <div class="hero-inner">
+    <h1>The Mounteer Family Recipe Box</h1>
+    <p>All our favorites, in one place, for all of us to keep adding to.</p>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="toc-panel">
+    <h2>Table of Contents</h2>
+    <ul class="toc-grid">
+      <li><a href="#breakfast" style="background-image:url('https://loremflickr.com/400/300/pancakes,waffles')"><span>Breakfast</span></a></li>
+      <li><a href="#breads" style="background-image:url('https://loremflickr.com/400/300/bread,bakery')"><span>Breads</span></a></li>
+      <li><a href="#salads" style="background-image:url('https://loremflickr.com/400/300/spinach,salad')"><span>Salads</span></a></li>
+      <li><a href="#soups" style="background-image:url('https://loremflickr.com/400/300/soup,stew')"><span>Soups</span></a></li>
+      <li><a href="#sides" style="background-image:url('https://loremflickr.com/400/300/stuffing,thanksgiving')"><span>Sides</span></a></li>
+      <li><a href="#pasta" style="background-image:url('https://loremflickr.com/400/300/pasta,italian')"><span>Pasta</span></a></li>
+      <li><a href="#meat" style="background-image:url('https://loremflickr.com/400/300/meatloaf,beef')"><span>Meat Dishes</span></a></li>
+      <li><a href="#dinners" style="background-image:url('https://loremflickr.com/400/300/dinner,homecooking')"><span>Dinners</span></a></li>
+      <li><a href="#desserts" style="background-image:url('https://loremflickr.com/400/300/dessert,cookies')"><span>Desserts</span></a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+
+<section class="category" id="breakfast">
+  <div class="banner" style="background-image:url('https://loremflickr.com/900/400/pancakes,waffles')"><h2>Breakfast</h2></div>
+
+  <article class="recipe">
+    <h3>Buttermilk Waffles</h3>
+    <div class="meta">Serves 6 · Prep 10 min · Cook 10 min</div>
+    <h4>Ingredients</h4>
+    <ul>
+      <li>2 cups all-purpose flour</li>
+      <li>2 tablespoons sugar</li>
+      <li>2 teaspoons baking powder</li>
+      <li>1 teaspoon baking soda</li>
+      <li>1/2 teaspoon salt</li>
+      <li>2 cups buttermilk, warm</li>
+      <li>1/3 cup butter, melted</li>
+      <li>2 eggs</li>
+      <li>1 teaspoon vanilla extract</li>
+    </ul>
+    <h4>Instructions</h4>
+    <ol>
+      <li>In a medium bowl, whisk flour, sugar, baking powder, baking soda, and salt.</li>
+      <li>In another bowl, whisk buttermilk and melted butter. Add eggs and stir until combined.</li>
+      <li>Add dry ingredients to wet ingredients and whisk until just combined (a few lumps are fine). Fold in vanilla. Let batter rest 10 minutes.</li>
+      <li>Preheat and grease the waffle iron. Pour in 1/3–1/2 cup batter per waffle. Cook until golden. Top with syrup and berries.</li>
+    </ol>
+    <div class="note">Tip: batter can be made the night before and kept covered in the fridge.</div>
+    <a class="back-to-top" href="#top">↑ Back to top</a>
+  </article>
+
+  <article class="recipe">
+    <h3>Waffles (Belgian Style)</h3>
+    <div class="meta">Family recipe card · Tip: buy X-large eggs</div>
+    <h4>Ingredients</h4>
+    <ul>
+      <li>1 egg yolk</li>
+      <li>1 cup flour</li>
+      <li>1/2 cup milk</li>
+      <li>1 cup sour cream</li>
+      <li>2 tsp sugar</li>
+      <li>3 tbsp butter, melted</li>
+      <li>1 tsp baking powder</li>
+      <li>1/2 tsp salt</li>
+      <li>1/4 tsp baking soda</li>
+      <li>1 egg white, stiffly beaten</li>
+    </ul>
+    <h4>Instructions</h4>
+    <ol>
+      <li>Preheat waffle iron.</li>
+      <li>Put all ingredients except the egg white in a large mixer bowl. Beat on low until moist, then increase to medium and mix until smooth.</li>
+      <li>By hand, gently fold in the stiffly beaten egg white.</li>
+      <li>Pour batter into the grill/iron and cook until golden.</li>
+    </ol>
+    <a class="back-to-top" href="#top">↑ Back to top</a>
+  </article>
+
+  <article class="recipe">
+    <h3>Jase's Pancakes</h3>
+    <div class="meta">Family recipe card</div>
+    <h4>Ingredients</h4>
+    <ul>
+      <li>2 cups flour</li>
+      <li>2 tsp sugar</li>
+      <li>1 1/2 tsp baking powder</li>
+      <li>1 tsp baking soda</li>
+      <li>1 tsp salt</li>
+      <li>3 eggs</li>
+      <li>1 cup fresh buttermilk</li>
+      <li>1 cup sour cream</li>
+      <li>2 tbsp butter, melted</li>
+    </ul>
+    <h4>Instructions</h4>
+    <ol>
+      <li>Mix dry ingredients together; set aside.</li>
+      <li>Mix eggs, buttermilk, sour cream, and melted butter until smooth, then mix in the dry ingredients.</li>
+      <li>Put on griddle and cook until golden on both sides.</li>
+    </ol>
+    <a class="back-to-top" href="#top">↑ Back to top</a>
+  </article>
+</section>
+
+<section class="category" id="breads">
+  <div class="banner" style="background-image:url('https://loremflickr.com/900/400/bread,bakery')"><h2>Breads</h2></div>
+
+  <article class="recipe">
+    <h3>Salted Honey Parker House Rolls</h3>
+    <div class="meta">Makes 15 rolls · Prep 1 hr 30 min · Cook 15 min · Rise 1 hr</div>
+    <h4>Ingredients</h4>
+    <ul>
+      <li>1 tablespoon unsalted butter, room temp (for the pan)</li>
+      <li>4 1/2 cups (572g) all-purpose flour</li>
+      <li>4 1/2 teaspoons instant yeast</li>
+      <li>2 teaspoons kosher salt</li>
+      <li>1 1/3 cups whole milk</li>
+      <li>1/4 cup unsalted butter</li>
+      <li>4 tablespoons honey</li>
+      <li>1 large egg</li>
+      <li>2 large egg yolks</li>
+      <li>1 egg, beaten (for egg wash)</li>
+      <li><em>Honey butter:</em> 1/4 cup unsalted butter, 2 tablespoons honey, flakey sea salt</li>
+    </ul>
+    <h4>Instructions</h4>
+    <ol>
+      <li>Butter a 9x13-inch baking pan.</li>
+      <li>In a stand mixer with the hook attachment, mix flour, yeast, and salt.</li>
+      <li>In a small pot over medium-low heat, melt the butter, then add milk and honey. Mixture should be lukewarm (no hotter than 120°F).</li>
+      <li>Beat egg and egg yolks together, then add along with the milk mixture to the dry ingredients. Knead on medium speed 5–7 minutes until smooth and elastic.</li>
+      <li>Transfer to an oiled bowl, cover, and let rise 30–40 minutes or until doubled.</li>
+      <li>Divide dough into 15 equal pieces (about 72g each). Shape into balls and place in the buttered pan. Let rise 30 minutes more, until puffy.</li>
+      <li>Preheat oven to 350°F. Brush tops with egg wash and bake about 20 minutes until golden brown.</li>
+      <li>Melt butter and honey together for the honey butter. Brush over warm rolls immediately after baking and sprinkle with flakey sea salt.</li>
+    </ol>
+    <div class="note">Can be made ahead: refrigerate the dough (unassembled or assembled) overnight, then bring to room temp/finish rising before baking.</div>
+    <a class="back-to-top" href="#top">↑ Back to top</a>
+  </article>
+
+  <article class="recipe">
+    <h3>Sourdough Bread</h3>
+    <div class="meta">Tartine basic loaf · Makes 2 loaves · About 7–8 hrs (same day) or 5–6 hrs + overnight proof</div>
+    <h4>Ingredients</h4>
+    <ul>
+      <li>Active sourdough starter</li>
+      <li>Bread flour</li>
+      <li>Salt</li>
+      <li>Water</li>
+    </ul>
+    <h4>Tools</h4>
+    <ul>
+      <li>Large mixing bowl, food scale, bench scraper, mixing spoon, parchment paper, plastic wrap, tea towels, bread lame or razor, Dutch oven</li>
+    </ul>
+    <h4>Instructions</h4>
+    <h4 style="text-transform:none;color:var(--dark);font-weight:bold;">Night 1 — Feed the Starter</h4>
+    <ol>
+      <li>The night before making the dough, feed 75g starter with 150g warm water and 150g bread flour (1:2:2 ratio).</li>
+    </ol>
+    <h4 style="text-transform:none;color:var(--dark);font-weight:bold;">Day 2 — Make the Dough</h4>
+    <ol>
+      <li>In a large bowl, combine 200g active bubbly starter with 700g of 80°F water. Add 1000g bread flour and mix by hand until no dry flour clumps remain. Cover and rest 40 minutes.</li>
+      <li>Add 25g salt and 50g additional warm water; mix in well by hand. Cover and place the bowl in a sink of warm water. Do a stretch-and-fold every 30 minutes for 3 hours (about 5 stretches total; skip the final one).</li>
+      <li><strong>Bench rest:</strong> Turn dough onto an unfloured surface, dust the top with flour, and divide into 2–3 even pieces. Shape each into a ball, cover with a tea towel, and let rest 30 minutes.</li>
+      <li><strong>Final shaping:</strong> Flour proofing bowls generously with flour-dusted tea towels. Flip each dough ball, do the envelope folds, then flip back over and tuck under with floured hands and bench knife to build tension across the top. Place seam-up into the prepped bowls, cover loosely with plastic wrap and a towel.</li>
+      <li><strong>Same day:</strong> rest on the counter 2–4 hours (poke test), then chill in the freezer 30 minutes before baking (optional, helps scoring). <strong>Next day:</strong> refrigerate overnight (8–24 hours) — this is called "retarding" the dough.</li>
+    </ol>
+    <h4 style="text-transform:none;color:var(--dark);font-weight:bold;">Baking</h4>
+    <ol>
+      <li>Preheat oven to 450°F with a Dutch oven inside.</li>
+      <li>Turn the loaf out onto parchment paper, top facing up. Dust with fresh flour and trim the parchment around the loaf, leaving handles on the ends.</li>
+      <li>Score the loaf, including at least one long, slightly deeper score (this is where the "oven spring" rise happens).</li>
+      <li>Carefully lower the loaf into the hot Dutch oven, cover, and bake 20 minutes. Remove the lid (optionally place a sheet pan underneath) and bake uncovered another 18–20 minutes, until deep golden brown.</li>
+      <li>Cool on a rack before slicing. Repeat with the second loaf.</li>
+    </ol>
+    <div class="note">From the Tartine sourdough bread book — don't get intimidated, it gets easier every time you make it.</div>
+    <a class="back-to-top" href="#top">↑ Back to top</a>
+  </article>
+</section>
+
+<section class="category" id="salads">
+  <div class="banner" style="background-image:url('https://loremflickr.com/900/400/spinach,salad')"><h2>Salads</h2></div>
+
+  <article class="recipe">
+    <h3>Spinach Salad</h3>
+    <div class="meta">Prep 30 min · Serves 8–10</div>
+    <h4>Ingredients</h4>
+    <ul>
+      <li>2 bunches spinach</li>
+      <li>1 bunch red leaf lettuce</li>
+      <li>3/4 lb mushrooms, sliced</li>
+      <li>3/4 lb Swiss cheese, grated</li>
+      <li>1 red onion, sliced thin</li>
+      <li>1/2 lb bacon bits</li>
+      <li>1 green onion, chopped</li>
+    </ul>
+    <h4>Dressing</h4>
+    <ul>
+      <li>2/3 cup vinegar</li>
+      <li>1 cup Wesson oil</li>
+      <li>1 1/4 cup sugar</li>
+      <li>2 tsp poppy seeds</li>
+      <li>2 tsp salt</li>
+      <li>2 tsp prepared mustard</li>
+    </ul>
+    <h4>Instructions</h4>
+    <ol>
+      <li>Mix the spinach, lettuce, mushrooms, Swiss cheese, red onion, bacon bits, and green onion together.</li>
+      <li>Whisk together the dressing ingredients.</li>
+      <li>Pour dressing over the salad right before serving.</li>
+    </ol>
+    <a class="back-to-top" href="#top">↑ Back to top</a>
+  </article>
+</section>
+
+<section class="category" id="soups">
+  <div class="banner" style="background-image:url('https://loremflickr.com/900/400/soup,stew')"><h2>Soups</h2></div>
+
+  <article class="recipe">
+    <h3>Vegetable-Beef Soup</h3>
+    <div class="meta">Serves 8</div>
+    <h4>Ingredients</h4>
+    <ul>
+      <li>3 lbs beef shank</li>
+      <li>1 (1 pt 2 oz) can tomato juice</li>
+      <li>1/3 cup chopped onion</li>
+      <li>4 tsp salt</li>
+      <li>2 tsp Worcestershire sauce</li>
+      <li>1/4 tsp chili powder</li>
+      <li>2 bay leaves</li>
+      <li>1 (1 lb / 2 cup) can tomatoes</li>
+      <li>1 cup diced celery</li>
+      <li>1 (8¾ oz) can whole kernel corn</li>
+      <li>1 cup sliced carrots</li>
+      <li>1 cup diced potatoes</li>
+      <li>1 (10 oz) package frozen lima beans</li>
+    </ul>
+    <h4>Instructions</h4>
+    <ol>
+      <li>Combine meat, tomato juice, onion, seasonings, and 6 cups water in a soup kettle. Cover and simmer 2 hours.</li>
+      <li>Cut meat from bones into large cubes; strain broth and skim off excess fat.</li>
+      <li>Add meat and vegetables back in; cover and simmer 1 hour more.</li>
+    </ol>
+    <a class="back-to-top" href="#top">↑ Back to top</a>
+  </article>
+</section>
+
+<section class="category" id="sides">
+  <div class="banner" style="background-image:url('https://loremflickr.com/900/400/stuffing,thanksgiving')"><h2>Sides</h2></div>
+
+  <article class="recipe">
+    <h3>Grandma Heaton's Stuffing (Turkey)</h3>
+    <div class="meta">Family recipe</div>
+    <h4>Ingredients</h4>
+    <ul>
+      <li>2 loaves bread (homemade or heavy), cubed</li>
+      <li>3 medium onions, chopped</li>
+      <li>2 stalks celery, chopped</li>
+      <li>1 cup butter (2 squares)</li>
+      <li>1 teaspoon baking powder</li>
+      <li>2 teaspoons salt</li>
+      <li>3 eggs, beaten, plus enough milk to equal 4 cups total</li>
+      <li>3 teaspoons rubbed sage (that's 1 tablespoon)</li>
+    </ul>
+    <h4>Instructions</h4>
+    <ol>
+      <li>Cube the bread and put it in a large bowl (a dish pan works well).</li>
+      <li>Sauté butter, onions, and celery in a medium fry pan until the veggies are tender.</li>
+      <li>Mix the beaten eggs and milk together.</li>
+      <li>When ready to stuff the turkey, mix the bread and veggies together, then add the milk mixture.</li>
+      <li>You'll have more stuffing than fits in the turkey — bake the leftover in a covered baking dish for about 30 minutes at 300°F.</li>
+    </ol>
+    <a class="back-to-top" href="#top">↑ Back to top</a>
+  </article>
+</section>
+
+<section class="category" id="pasta">
+  <div class="banner" style="background-image:url('https://loremflickr.com/900/400/pasta,italian')"><h2>Pasta</h2></div>
+
+  <article class="recipe">
+    <h3>Market Street Pasta Salad</h3>
+    <div class="meta">Family recipe card</div>
+    <h4>Ingredients</h4>
+    <ul>
+      <li>Shrimp, large, de-veined, cut up</li>
+      <li>1 clove garlic</li>
+      <li>Scallions</li>
+      <li>Salt, pepper & garlic salt</li>
+      <li>1 can marinated artichoke hearts, with sauce</li>
+      <li>1 bottle Market Street dressing (or Caesar dressing), medium size</li>
+      <li>Sliced olives</li>
+      <li>Fresh parmesan</li>
+      <li>Sliced roma tomatoes, for garnish</li>
+      <li>Pasta of choice</li>
+    </ul>
+    <h4>Instructions</h4>
+    <ol>
+      <li>Sauté the shrimp, garlic, and scallions in butter and olive oil; season with salt, pepper, and garlic salt.</li>
+      <li>Once the shrimp is cooked, add the artichoke hearts (with sauce), the Market Street or Caesar dressing, and the sliced olives. Heat through.</li>
+      <li>Pour the mixture over cooked pasta in a serving bowl.</li>
+      <li>Top with fresh parmesan and garnish with sliced roma tomatoes.</li>
+    </ol>
+    <a class="back-to-top" href="#top">↑ Back to top</a>
+  </article>
+
+  <article class="recipe">
+    <h3>Beef-Spinach Stuffed Manicotti</h3>
+    <div class="meta">Recipe by Lisa Schlepp</div>
+    <h4>Ingredients</h4>
+    <ul>
+      <li>8–10 manicotti, cooked slightly underdone and drained</li>
+      <li>3 tablespoons olive oil</li>
+      <li>1/2–3/4 lb ground beef</li>
+      <li>1 cup minced onion</li>
+      <li>1 cup bread crumbs (Italian style are good)</li>
+      <li>3 eggs, slightly beaten</li>
+      <li>1/2–3/4 lb grated mozzarella</li>
+      <li>1 lb fresh spinach, cooked and drained (or 1 10-oz package frozen, cooked and drained)</li>
+      <li>1/2 teaspoon salt</li>
+      <li>1/4 teaspoon pepper</li>
+      <li>1 jar spaghetti sauce of your choice</li>
+      <li>Parmesan cheese, for topping</li>
+    </ul>
+    <h4>Instructions</h4>
+    <ol>
+      <li>Preheat oven to 375°F.</li>
+      <li>Heat olive oil in a skillet and cook ground beef and onions until brown.</li>
+      <li>In a big bowl, combine the beef and onions with the mozzarella, bread crumbs, eggs, spinach, salt, and pepper. Mix well.</li>
+      <li>Stuff the manicotti with the mixture and arrange in a single layer in a baking dish.</li>
+      <li>Cover with spaghetti sauce, sprinkle with parmesan, and cover the dish with its lid or tin foil.</li>
+      <li>Bake for 45 minutes.</li>
+    </ol>
+    <a class="back-to-top" href="#top">↑ Back to top</a>
+  </article>
+</section>
+
+<section class="category" id="meat">
+  <div class="banner" style="background-image:url('https://loremflickr.com/900/400/meatloaf,beef')"><h2>Meat Dishes</h2></div>
+
+  <article class="recipe">
+    <h3>Meatloaf</h3>
+    <div class="meta">Family recipe card</div>
+    <h4>Ingredients</h4>
+    <ul>
+      <li>1 lb hamburger</li>
+      <li>1 egg</li>
+      <li>Salt and pepper</li>
+      <li>Dry minced onion</li>
+      <li>2/3 cup tomato soup (plus more for topping)</li>
+      <li>Garlic salt</li>
+      <li>Mustard</li>
+      <li>1/2 cup minute rice</li>
+      <li>1/2 cup oatmeal</li>
+    </ul>
+    <h4>Instructions</h4>
+    <ol>
+      <li>Mix everything together, then bake 1 hour at 350°F.</li>
+      <li>Pour 1/3 can of tomato soup over the cooked meatloaf and heat until it sinks in.</li>
+    </ol>
+    <a class="back-to-top" href="#top">↑ Back to top</a>
+  </article>
+</section>
+
+<section class="category" id="dinners">
+  <div class="banner" style="background-image:url('https://loremflickr.com/900/400/dinner,homecooking')"><h2>Dinners</h2></div>
+
+  <article class="recipe">
+    <h3>Green Chicken Enchiladas (Enchiladas Verdes con Pollo)</h3>
+    <div class="meta">By Olivia Mack McCool, Food52 · Serves 4 · Prep 20 min · Cook 1 hr 25 min</div>
+    <h4>Ingredients</h4>
+    <ul>
+      <li>1/4 cup neutral oil or rendered pork lard, divided, plus more as needed</li>
+      <li>1 large white onion, coarsely chopped</li>
+      <li>2 poblano chiles, seeded and coarsely chopped</li>
+      <li>2 jalapeños, coarsely chopped, seeded if less heat desired</li>
+      <li>3 garlic cloves, smashed</li>
+      <li>1/2 teaspoon ground cumin</li>
+      <li>1 1/2 lbs tomatillos, husked, rinsed, and coarsely chopped</li>
+      <li>1 tablespoon kosher salt</li>
+      <li>1 1/2 lbs skinless, boneless chicken thighs</li>
+      <li>2 cups loosely packed cilantro leaves with tender stems, plus more for serving</li>
+      <li>1 (15-oz) can refried beans</li>
+      <li>12 corn tortillas</li>
+      <li>10 oz shredded mozzarella, Monterey Jack, or queso quesadilla</li>
+      <li>Sour cream, for serving</li>
+    </ul>
+    <h4>Instructions</h4>
+    <ol>
+      <li>In a Dutch oven over medium-high heat, heat 2 tablespoons of the oil. Cook onion 5–6 minutes until softened. Add poblanos, jalapeños, garlic, and cumin; cook 5 minutes more.</li>
+      <li>Add tomatillos, salt, and 2 cups water. Cover and simmer 10 minutes, until tomatillos lose their shape.</li>
+      <li>Add chicken, reduce heat to medium-low, and simmer 30–40 minutes until the chicken shreds easily. Remove chicken and shred; set aside.</li>
+      <li>Heat the refried beans until warmed through.</li>
+      <li>Add 2 cups cilantro to the sauce and blend until smooth (immersion blender or regular blender in batches).</li>
+      <li>Preheat oven to 350°F. Pour two-thirds of the sauce into a 9x13 baking dish.</li>
+      <li>In a skillet, heat remaining oil and warm each tortilla 10 seconds per side until pliable.</li>
+      <li>Spread a heaping tablespoon of beans on each tortilla, top with chicken and a little cheese, roll up, and place seam-side down in the dish.</li>
+      <li>Pour remaining sauce over the top and add remaining cheese. Bake 25 minutes until melted and hot through.</li>
+      <li>Serve with sour cream and chopped cilantro.</li>
+    </ol>
+    <a class="back-to-top" href="#top">↑ Back to top</a>
+  </article>
+
+  <article class="recipe">
+    <h3>Vietnamese Caramelised Pork Bowls</h3>
+    <div class="meta">By Nagi Maehashi, RecipeTin Eats · Serves 4 · Prep 10 min · Cook 10 min</div>
+    <h4>Ingredients</h4>
+    <ul>
+      <li>1 1/2 tbsp cooking oil (peanut oil)</li>
+      <li>1/2 onion, finely diced</li>
+      <li>2 tsp ginger, grated or minced</li>
+      <li>2 garlic cloves, minced</li>
+      <li>1 bird's eye or Thai chili, deseeded and finely chopped (optional)</li>
+      <li>500g / 1 lb pork mince (ground pork)</li>
+      <li>5 tbsp tightly packed brown sugar</li>
+      <li>2 tbsp fish sauce</li>
+      <li><em>To serve:</em> sliced green onion, jasmine rice, sliced red chili/tomato/cucumber (optional)</li>
+    </ul>
+    <h4>Instructions</h4>
+    <ol>
+      <li>Heat oil in a large skillet over high heat.</li>
+      <li>Add onion, ginger, garlic, and chili; cook 2 minutes.</li>
+      <li>Add pork mince and cook about 2 minutes until white all over, breaking it up as you go.</li>
+      <li>Add sugar and fish sauce. Let it cook without stirring until the juices cook out and the pork starts to caramelize, about 2 minutes, then stir and let sit another 30 seconds. Repeat until caramelized to your liking.</li>
+      <li>Serve over rice or noodles, garnished with green onion.</li>
+    </ol>
+    <div class="note">Also works great with chicken, turkey, or beef instead of pork.</div>
+    <a class="back-to-top" href="#top">↑ Back to top</a>
+  </article>
+
+  <article class="recipe">
+    <h3>Sour Cream Chicken Enchiladas</h3>
+    <div class="meta">Recipe by Klenell Jensen</div>
+    <h4>Ingredients</h4>
+    <ul>
+      <li>1 dozen corn tortillas</li>
+      <li>3–4 cups grated Colby Jack cheese</li>
+      <li>4–5 cooked chicken breasts, diced</li>
+      <li>1 small can diced green chiles</li>
+      <li>1 can cream of chicken soup</li>
+      <li>1 cup sour cream</li>
+      <li>1/3 cup chicken stock or milk</li>
+      <li>Cooking spray</li>
+    </ul>
+    <h4>Instructions</h4>
+    <ol>
+      <li>Preheat oven to 350°F. Lay 6 tortillas on a foil-covered cookie sheet, spray both sides, and warm in the oven 4–5 minutes until softened. Repeat with remaining 6 tortillas.</li>
+      <li>Mix the diced chicken, green chiles, and cheese in a large bowl.</li>
+      <li>Fill each tortilla with 2–3 tablespoons of the chicken mixture, roll into a tube, and place seam-side down in a 9x13 pan.</li>
+      <li>Mix the soup and sour cream together, then stir in the chicken stock or milk to make a thick sauce.</li>
+      <li>Spread the sauce over the enchiladas and sprinkle with grated cheese.</li>
+      <li>Bake at 350°F for 20–25 minutes, until the sauce begins to bubble.</li>
+    </ol>
+    <a class="back-to-top" href="#top">↑ Back to top</a>
+  </article>
+
+  <article class="recipe">
+    <h3>Beef Stroganoff</h3>
+    <div class="meta">Family recipe card</div>
+    <h4>Ingredients</h4>
+    <ul>
+      <li>1 lb hamburger</li>
+      <li>Onion</li>
+      <li>2 1/2 cups water</li>
+      <li>1 can cream of mushroom soup</li>
+      <li>2 cups noodles</li>
+      <li>1 small carton sour cream</li>
+    </ul>
+    <h4>Instructions</h4>
+    <ol>
+      <li>Cook the hamburger and onions.</li>
+      <li>Pour in the water and noodles. When the noodles are done, mix in the soup and sour cream.</li>
+    </ol>
+    <a class="back-to-top" href="#top">↑ Back to top</a>
+  </article>
+</section>
+
+<section class="category" id="desserts">
+  <div class="banner" style="background-image:url('https://loremflickr.com/900/400/dessert,cookies')"><h2>Desserts</h2></div>
+
+  <article class="recipe">
+    <h3>Best Ever Scotcheroos</h3>
+    <div class="meta">By Kelsey Byrnes, Dance Around the Kitchen · 24 squares · Prep 10 min · Cook 5 min</div>
+    <h4>Ingredients</h4>
+    <ul>
+      <li>1 cup sugar</li>
+      <li>1 1/3 cups light corn syrup</li>
+      <li>1 1/3 cups peanut butter</li>
+      <li>1 teaspoon vanilla extract</li>
+      <li>6 cups Rice Krispies</li>
+      <li>1 cup semisweet chocolate chips</li>
+      <li>1 cup butterscotch chips</li>
+    </ul>
+    <h4>Instructions</h4>
+    <ol>
+      <li>Coat a 9x13-inch pan with nonstick cooking spray.</li>
+      <li>In a large saucepan, combine sugar and corn syrup over low heat, stirring until the sugar dissolves. Do not let it boil — remove from heat as soon as it's dissolved.</li>
+      <li>Stir in the peanut butter and vanilla.</li>
+      <li>Stir in the Rice Krispies, being careful not to crush them.</li>
+      <li>Pour into the prepared pan and press into place.</li>
+      <li>Melt the chocolate and butterscotch chips together in the microwave in 30-second intervals, stirring between each, until smooth.</li>
+      <li>Spread over the top and let cool completely before cutting into bars.</li>
+    </ol>
+    <div class="note">Key tip: do NOT boil the sugar/corn syrup mixture — that's what keeps these soft and chewy instead of hard.</div>
+    <a class="back-to-top" href="#top">↑ Back to top</a>
+  </article>
+
+  <article class="recipe">
+    <h3>The Best Snickerdoodle Cookie Recipe</h3>
+    <div class="meta">By Melissa Stadler, Modern Honey · Makes 24 · Prep 15 min · Cook 10 min</div>
+    <h4>Ingredients</h4>
+    <ul>
+      <li>1 cup unsalted butter, softened</li>
+      <li>1 1/2 cups sugar</li>
+      <li>2 large eggs</li>
+      <li>2 teaspoons vanilla</li>
+      <li>2 3/4 cups flour</li>
+      <li>1 1/2 teaspoons cream of tartar (use 1 tsp for less tang)</li>
+      <li>1/2 teaspoon baking soda</li>
+      <li>3/4 teaspoon salt</li>
+      <li><em>Cinnamon-sugar coating:</em> 1/4 cup sugar, 1 1/2 tablespoons cinnamon</li>
+    </ul>
+    <h4>Instructions</h4>
+    <ol>
+      <li>Preheat oven to 350°F.</li>
+      <li>Cream the butter and sugar 4–5 minutes until light and fluffy. Add eggs and vanilla; cream 1–2 minutes longer.</li>
+      <li>Stir in flour, cream of tartar, baking soda, and salt just until combined.</li>
+      <li>Stir together the cinnamon and sugar in a small bowl.</li>
+      <li>Roll dough into small balls, then coat well in the cinnamon-sugar (double-coat for full coverage).</li>
+      <li>Place on a parchment-lined baking sheet and bake 9–11 minutes. Cool several minutes on the pan before removing.</li>
+    </ol>
+    <div class="note">Don't overbake — pull them while they still look slightly underdone; they'll set up as they cool.</div>
+    <a class="back-to-top" href="#top">↑ Back to top</a>
+  </article>
+
+  <article class="recipe">
+    <h3>Peach Pie</h3>
+    <div class="meta">Recipe by Madison Mounteer</div>
+    <h4>Ingredients</h4>
+    <ul>
+      <li>1 large peach, smashed</li>
+      <li>1/2 cup water</li>
+      <li>2 tablespoons lemon juice</li>
+      <li>3/4 cup sugar</li>
+      <li>2 tablespoons cornstarch</li>
+      <li>3 ounces cream cheese</li>
+      <li>1/2 cup powdered sugar</li>
+      <li>4 cups fresh peaches, sliced</li>
+      <li>1 baked and cooled pie shell</li>
+    </ul>
+    <h4>Instructions</h4>
+    <ol>
+      <li>Combine the smashed peach with the water and lemon juice.</li>
+      <li>Mix the sugar with the cornstarch, then add to the peach mixture. Cook until clear, then cool.</li>
+      <li>Blend the cream cheese and powdered sugar together and spread in the bottom of the cooled pie shell.</li>
+      <li>Arrange the fresh sliced peaches on top.</li>
+      <li>Pour the cooled glaze over the peaches.</li>
+    </ol>
+    <a class="back-to-top" href="#top">↑ Back to top</a>
+  </article>
+
+  <article class="recipe">
+    <h3>Applesauce Cookies</h3>
+    <div class="meta">Recipe by Klenell Jensen · Bake at 375°F, 15 min, greased cookie sheet</div>
+    <h4>Ingredients</h4>
+    <ul>
+      <li>2 cups flour</li>
+      <li>1/2 teaspoon salt</li>
+      <li>Cinnamon, nutmeg, and cloves, to taste</li>
+      <li>1/2 cup butter or margarine</li>
+      <li>1 cup sugar</li>
+      <li>1 teaspoon baking soda</li>
+      <li>1 cup applesauce</li>
+      <li>1 egg</li>
+      <li>1 cup chopped nuts</li>
+      <li>1 cup raisins</li>
+    </ul>
+    <h4>Instructions</h4>
+    <ol>
+      <li>Cream the butter or margarine with the sugar.</li>
+      <li>Mix the baking soda with the applesauce, then add the egg.</li>
+      <li>Add the flour and spices; mix.</li>
+      <li>Fold in the nuts and raisins.</li>
+      <li>Drop onto a greased cookie sheet and bake at 375°F for 15 minutes.</li>
+    </ol>
+    <a class="back-to-top" href="#top">↑ Back to top</a>
+  </article>
+
+  <article class="recipe">
+    <h3>Raspberry Cheesecake</h3>
+    <div class="meta">Family recipe card</div>
+    <h4>Part 1 — Crust</h4>
+    <ul>
+      <li>2 cups flour</li>
+      <li>1 cup soft margarine</li>
+      <li>1/2 cup chopped brown sugar</li>
+      <li>Walnuts, chopped</li>
+    </ul>
+    <p style="margin:6px 0 0;">Mix until crumbly. Pat half into the bottom of a 9x13 pan. Bake 15 minutes at 375°F, then cool. Set the other half aside, uncooked, to crumble on top later.</p>
+
+    <h4>Part 2 — Cream Cheese Layer</h4>
+    <ul>
+      <li>8 oz cream cheese</li>
+      <li>1 cup powdered sugar</li>
+      <li>1 tsp vanilla</li>
+      <li>2 envelopes Dream Whip, prepared per box directions</li>
+    </ul>
+    <p style="margin:6px 0 0;">Mix the cream cheese, powdered sugar, and vanilla together until smooth. Whip the Dream Whip per box directions, then gently fold into the cream cheese mixture. Spread over the cooled, baked crust.</p>
+
+    <h4>Part 3 — Raspberry Topping</h4>
+    <ul>
+      <li>1 package raspberry Danish dessert mix</li>
+      <li>2 cups water</li>
+      <li>1 package fresh raspberries</li>
+    </ul>
+    <p style="margin:6px 0 0;">Mix the Danish dessert per box directions with the water; cook, then cool. Add the package of raspberries. Spoon over the cream cheese layer, then crumble the reserved raw crust mixture on top. Refrigerate thoroughly before serving.</p>
+    <div class="note">This one was pieced together from a well-loved, slightly smudged recipe card — if it doesn't quite match memory, let whoever made it originally weigh in!</div>
+    <a class="back-to-top" href="#top">↑ Back to top</a>
+  </article>
+
+</section>
+
+</main>
+
+<footer>
+  The Mounteer Family Recipe Box — add your own favorites anytime.
+</footer>
+
+</body>
+</html>
