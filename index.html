@@ -27,27 +27,37 @@
   header.hero {
     position: relative;
     height: 60vh;
-    min-height: 380px;
+    min-height: 420px;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    background: linear-gradient(rgba(30,20,15,0.45), rgba(30,20,15,0.55)),
-                url('https://loremflickr.com/1600/900/homecooking,familydinner') center/cover no-repeat;
+    align-items: flex-end;
+    justify-content: flex-end;
+    text-align: right;
+    background: linear-gradient(rgba(20,25,15,0.05), rgba(20,15,10,0.05) 60%, rgba(10,8,6,0.55)),
+                url('images/family-hero-2.jpg') center 20%/cover no-repeat;
     color: #fff;
   }
-  header.hero .hero-inner { padding: 20px; }
+  header.hero .hero-inner {
+    padding: 40px 45px;
+    max-width: 60%;
+  }
   header.hero h1 {
-    font-size: 3.2em;
-    margin: 0 0 14px;
+    font-size: 2.6em;
+    margin: 0 0 10px;
     letter-spacing: 1px;
-    text-shadow: 0 3px 12px rgba(0,0,0,0.5);
+    color: var(--gold);
+    text-shadow: 0 2px 6px rgba(0,0,0,0.85), 0 0 18px rgba(0,0,0,0.5);
   }
   header.hero p {
     font-style: italic;
-    font-size: 1.2em;
+    font-size: 1.1em;
     margin: 0;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.85);
+  }
+  @media (max-width: 640px) {
+    header.hero { justify-content: center; text-align: center; }
+    header.hero .hero-inner { max-width: 90%; }
+    header.hero h1 { font-size: 1.9em; }
   }
   header.hero::after {
     content: '';
@@ -263,7 +273,7 @@
 
 <header class="hero" id="top">
   <div class="hero-inner">
-    <h1>The Mounteer Family Recipe Box</h1>
+    <h1>Mounteer Family Recipe Box</h1>
     <p>All our favorites, in one place, for all of us to keep adding to.</p>
   </div>
 </header>
